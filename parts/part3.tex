@@ -75,9 +75,98 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 11 - Wireless Protocols}
 
+\algo{43}{Slotted Aloha}{108}
+{
+	\begin{items}
+		\item {\bf Theorem 11.1:} Alows one node to transmit alone (become a leader) ater expected time $e$.
+		\item {\bf Theorem 11.6:} Elects a leader w.h.p. in $O(log(n))$ time slots.
+	\end{items}
+}
 
+\defi{Text}{Initialization}
+{
+	Sometimes we want the n nodes to have the IDs ${1, 2, \ldots , n}$. This process is 
+	called {\bf initialization}.
+}
 
+\theo{11.2}{Non-Uniform Initialization}
+{
+	If the nodes know $n$, we can initialize them in $O(n)$ time slots.
+}
 
+\defi{11.3}{Collision Detection, CD}
+{
+	Two or more nodes transmitting concurrently is called interference. In a system with collision detection, a 
+	receiver can distinguish interference from nobody transmitting. In a system without collision detection, a 
+	receiver cannot distinguish the two cases.
+}
+
+\algo{44}{RandomizedSplit($b$)}{109}
+{
+}
+
+\algo{45}{Initialization with Collision Detection}{110}
+{
+	\begin{items}
+		\item Prepares and starts Algorithm 44: RandomizedSplit($b$).
+		\item {\bf Theorem 11.4:} Initializes the set of nodes in $O(n)$.
+	\end{items}
+}
+
+\defi{11.5}{With High Probability}
+{
+	Some probabilistic event is said to occur {\bf with high probability} ({\bf w.h.p.}), if it happens with 
+	a probability $p \ge 1-\frac{1}{n^c}$, where $c$ is a constant. The constant $c$ may be chosen arbitrarily, but it is 
+	considered constant with respect to Big-O notation.
+}
+
+\algo{46}{Uniform leader election}{111}
+{
+	\begin{items}
+		\item Without CD!
+		\item {\bf Theorem 11.7:} elect a leader w.h.p. in $O(log^2(n))$ if $n$ is not known.
+	\end{items}
+}
+
+\algo{47}{Uniform leader election with CD}{112}
+{
+	\begin{items}
+		\item With CD
+		\item {\bf Theorem 11.8:} elect a leader w.h.p. in $O(log(n))$.
+	\end{items}
+}
+
+\algo{48}{Fast uniform leader election}{113}
+{
+	\begin{items}
+		\item With CD
+		\item {\bf Lemma 11.9-11.6:} See in script for details.
+		\item {\bf Lemma 11.9:} elects a leader with probability of at least $1-\frac{log(log(n))}{log(n)}$ 
+		in time $O(log(log(n))$.
+	\end{items}
+}
+
+\theo{11.18}{Lower Bound}
+{
+	Any uniform protocol that elects a leader with probability of at least $1-{\frac{1}{2}}^t$ 
+	must run for at least $t$ time slots.
+}
+
+\theo{11.19}{Uniform Asynchronous Wakeup without CD}
+{
+	If nodes wake up in an arbitrary (worst-case) way, any algorithm may take 
+	$\Omega(n/log(n))$ time slots until a single node can successfully transmit.
+}
+
+{\LARGE Useful Formulas}
+
+See page 116-117 in script for some usefule formulas:
+\begin{items}
+	\item Union Bound
+	\item Markov's Inequality
+	\item Chernoff Bound
+	\item 2 further unnamed formulas.
+\end{items}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	SYNCHRONIZATION
