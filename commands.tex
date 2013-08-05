@@ -28,6 +28,7 @@
 {
 	\newpage
 	\part*{#1}
+	\addcontentsline{toc}{section}{#1}
 }
 
 \newcommand{\desc}[1]
@@ -48,6 +49,7 @@
 	{\bf Algorithm #1 - #2} {\it (see page #3)}
 	#4
 	\vspace{0.5cm}
+	\addcontentsline{toc}{subsection}{Algorithm - #2}
 }
 
 \newcommand{\defi}[3] {
@@ -55,6 +57,7 @@
 	{\bf Definition #1 - #2}\\
 	#3
 	\vspace{0.5cm}
+	\addcontentsline{toc}{subsection}{Definition - #2}
 }
 
 \newcommand{\fact}[2] {
@@ -69,6 +72,7 @@
 	{\bf Theorem #1 - #2}\\
 	#3
 	\vspace{0.5cm}
+	\addcontentsline{toc}{subsection}{Theorem - #2}
 }
 
 \newcommand{\lemma}[2] {
