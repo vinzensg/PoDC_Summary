@@ -582,4 +582,136 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 5 - Maximal Independent Set}
 
+\defi{5.1}{Independent Set}
+{
+	Given an undirected Graph $G = (V, E)$ an independent set is a subset of nodes
+	$U \subseteq V$ , such that no two nodes in $U$ are adjacent. An
+	{\bf independent set is maximal} if no node can be added without violating
+	independence. An independent set of maximum cardinality is called maximum.
+}
+
+\algo{23}{Slow MIS}{46}
+{
+	\begin{items}
+		\item {\bf Theorem 5.2:} features a {\bf time complexity} of $O(n)$ and
+		a {\bf message complexity} of $O(m)$.
+	\end{items}
+}
+
+\coro{5.3}
+{
+	Given a coloring algorithm that needs C colors and runs in time T, we can
+	construct a MIS in time C + T.\\
+	{\it (We first choose all nodes of the first color. Then, for each additional
+	color we add ``in parallel'' (without conflict) as many nodes as possible.)}
+}
+
+\algo{24}{Fast MIS}{47}
+{
+	\begin{items}
+		\item {\bf Lemma 5.4 - Joining MIS:} A node v joins the MIS in Step 2 of the
+		Fast MIS with probability $p \geq 1$.
+		\item {\bf Lemma 5.5 - Good Nodes:} A node v is called good if\\
+		$\sum_{w\in N(v)} \frac{1}{2d(w) \geq \frac{1}{6}}$\\
+		Otherwise we call $v$ a bad node. A good node will be removed in Step 3 with
+		probability $p \geq \frac{1}{36}$.
+		\item {\bf Lemma 5.6 - Good Edges:} An edge $e = (u, v)$ is called bad if both
+		$u$ and $v$ are bad; else the edge is called good. The following holds: At any
+		time at least half of the edges are good.
+		\item {\bf Theorem 5.8:} terminates in expected {\bf time} $O(log n)$ (, even
+		with high probabilty).
+	\end{items}	
+}
+
+\lemma{5.7}
+{
+	A bad node has outdegree (number of edges pointing away from bad node) at least
+	twice its indegree (number of edges pointing towards bad node).
+}
+
+\algo{25}{Fast MIS 2}{50}
+{
+	\begin{items}
+		\item {\bf Lemma 5.10:} In a single phase, we remove at least half of the
+		edges in expectation.
+		\item {\bf Theorem 5.11:} terminates after {\bt time} at most $3 log_{4/3} m +
+		1 \in O(log n)$ phases in expectation.\\
+		{\bf Corollary 5.14:} terminates w.h.p. in O(log n) time.
+	\end{items}
+}
+
+\theo{5.9}{Linearity of Expectation}
+{
+	Let $X_i$, $i = 1$, \ldots , $k$ denote random variables, then\\
+	$E[\sum_{i} X_i] = \sum_{i} E[X_i]$.
+}
+
+\defi{5.12}{With High Probability (W.h.p.)}
+{
+	We say that an algorithm terminates w.h.p. (with high probability) within
+	$O(t)$ time if it does so with probability at least $1 - 1/n^c$ for any choice
+	of $c \geq 1$.
+	Here c may affect the constants in the Big-O notation because it is considered
+	a ``tunable constant'' and usually kept small.
+}
+
+\defi{5.13{Chernoff's Bound}
+{
+	Let $X = \sum_{i=1}^{k} X_i$ be the sum of $k$ independent 0-1 random
+	variables. Then Chernoff's bound states that w.h.p.\\
+	$|X - E[X]| \in O(log n + \sqrt{E[X] log n})$ 
+}
+
+\defi{5.15}{Matching}
+{
+	Given a graph $G = (V, E)$ a matching is a subset of edges $M \subseteq E$,
+	such that no two edges in $M$ are adjacent (i.e., where no node is adjacent to
+	two edges in the matching). A matching is maximal if no edge can be added
+	without violating the above constraint. A matching of maximum cardinality is
+	called maximum. A matching is called perfect if each node is adjacent to an
+	edge in the matching. 
+}
+
+\defi{5.16}
+{
+	An approximation algorithm A for a maximization problem Π has an approximation
+	factor of $r$ if the following condition holds for all instances $I \in \Pi$:\\
+	$\frac{OPT(I)}{A(I)} \leq r$.
+}
+
+\algo{26}{General Graph Coloring}{54}
+{
+	\begin{items}
+		\item {\bf Theorem 5.17:} $(\Delta + 1)$-colors an arbitrary graph in $O(log
+		n)$ time, with high probability, $\Delta$ being the largest degree in the
+		graph.
+	\end{items}
+}
+
+\defi{5.18}{Bounded Independence}
+{
+	$G = (V, E)$ is of bounded independence, if each neighborhood contains at
+	most a constant number of independent (i.e., mutually non-adjacent) nodes. 
+}
+
+\defi{5.19}{(Minimum) Dominating Set}
+{
+	A dominating set is a subset of the nodes such that each node is in the set or
+	adjacent to a node in the set. A minimum dominating set is a dominating set
+	containing the least possible number of nodes.
+}
+
+\coro{5.20}
+{
+	On graphs of bounded independence, a constant-factor approximation to a
+	minimum dominating set can be found in time $O(log n)$ w.h.p.
+}
+
+
+
+
+
+
+
+
 
