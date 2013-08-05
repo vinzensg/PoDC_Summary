@@ -29,8 +29,8 @@
 	\item {\bf Vertex Coloring}
   \item Non-distributed
   \item Centralized
-  \item {\bf Theorem 1.5} is correct and terminates in n ``steps''. The algorithm uses at
-	most $\Delta+1$ colors.
+  \item {\bf Theorem 1.5:} is correct and terminates in n ``steps''. The
+  algorithm uses at most $\Delta+1$ colors.
 \end{items}
 }
 
@@ -162,12 +162,170 @@
 	constraint that there is exactly one leader.
 }
 
+\defi{2.2}{Anonymous}
+{
+	A system is anonymous if nodes do not have unique identifiers.
+}
+
+\defi{2.3}{Uniform}
+{
+	An algorithm is called uniform if the number of nodes n is not known to the
+	algorithm (to the nodes, if you wish). If n is known, the algorithm is called
+	non-uniform. 
+}
+
+\lemma{2.4}
+{
+	After round $k$ of any deterministic algorithm on an anonymous ring, each node
+	is in the same state $s_k$.
+}
+
+\theo{2.5}{Anonymous Leader Election}
+{
+	Deterministic leader election in an anonymous ring is impossible.\\
+	{\it (Also holds for other symmetric network topologies (e.g., com- plete
+	graphs, complete bipartite graphs), but does not hold for randomized
+	algorithms.)} 
+}
+
+\algo{8}{Clockwise}{17}
+{
+	\begin{items}
+		\item {\bf Theorem 2.6:} is correct. The {\bf time complexity} is $O(n)$. The
+		{\bf message complexity} is $O(n2)$.
+	\end{items}
+}
+
+\algo{9}{Radius Growth}{18}
+{
+	\begin{items}
+		\item {\bf Theorem 2.7:} is correct. The {\bf time complexity} is $O(n)$.
+		The {\bf message complexity} is $O(n log n)$.
+		\item Asynchronous
+		\item Uniform
+	\end{items}
+}
+
+\defi{2.8}{Execution}
+{
+	Definition 2.8 (Execution). An execution of a distributed algorithm is a list
+	of events, sorted by time. An event is a record (time, node, type, message),
+	where type is ``send'' or ``receive''.
+}
+
+\defi{2.9}{Open Schedule}
+{
+	A schedule is an execution chosen by the scheduler. An open (undirected) edge
+	is an edge where no message traversing the edge has been received so far. A
+	schedule for a ring is open if there is an open edge in the ring.
+}
+
+\lemma{2.10}
+{
+	Given a ring $R$ with two nodes, we can construct an open schedule in which at
+	least one message is received. The nodes cannot distinguish this schedule from
+	one on a larger ring with all other nodes being where the open edge is. 
+}
+
+\lemma{2.11}
+{
+	By gluing together two rings of size $n/2$ for which we have open schedules, we
+	can construct an open schedule on a ring of size n. If $M(n/2)$ denotes the
+	number of messages already received in each of these schedules, at least
+	$2M(n/2) + n/4$ messages have to be exchanged in order to solve leader
+	election.
+}
+
+\lemma{2.12}
+{
+	Any uniform leader election algorithm for asynchronous rings has at least
+	message complexity $M(n) \geq n (log(n) + 1)$.
+}
+
+\theo{2.13}{Asynchronous Leader Election Lower Bound}
+{
+	Any uniform leader election algorithm for asynchronous rings has
+	$\Omega (n*log(n))$ message complexity.
+}
+
+\algo{10}{Synchronous Leader Election}{21}
+{
+	\begin{items}
+		\item Non-uniform (i.e. the ring size n is known)
+		\item Every node starts at same time
+		\item Mimimum identifies (integers) becomes the leader
+		\item {\bf Time Complexity:} $m*n$, where $m$ is the minimum identifier
+		\item {\bf Message Complexity:} n. 
+	\end{items}
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	TREE ALGORITHMS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 3 - Tree Algorithms}
+
+\defi{3.1}{Broadcast}
+{
+	A broadcast operation is initiated by a single processor, the source. The
+	source wants to send a message to all other nodes in the system. 
+}
+
+\defi{3.2}{Distance, Radius, Diameter}
+{
+	The {\bf distance} between two nodes $u$ and $v$ in an undirected graph $G$ is
+	the number of hops of a minimum path between $u$ and $v$. The {\bf radius of a
+	node} $u$ is the maximum distance between $u$ and any other node in the graph.
+	The {\bf radius of a graph} is the minimum radius of any node in the graph. The
+	{\bf diameter} of a graph is the maximum distance between two arbitrary
+	nodes.\\
+	Relation between radius and diameter: $R \leq D \leq 2R$ 
+}
+
+\theo{3.3}{Broadcast Lower Bound}
+{
+	The message complexity of broadcast is at least $n-1$. The source's radius is
+	a lower bound for the time complexity.
+}
+
+\defi{3.4}{Clean}
+{
+	A graph (network) is clean if the nodes do not know the topology of the graph.
+}
+
+\theo{3.5}{Clean Broadcast Lower Bound}
+{
+	For a clean network, the num- ber of edges is a lower bound for the broadcast
+	message complexity.
+}
+
+\algo{11}{Flooding}{24}
+{
+	\begin{items}
+		\item
+	\end{items}
+}
+
+\algo{12}{Echo}{25}
+{
+	\begin{items}
+		\item {\bf Message Complexity: } $n-1$
+		\item Together with flooding the message complexity is $O(m)$, where $m=|E|$
+		is the number of edges in the graph.
+		\item {\bf Time Complexity: } Depth of the spanning tree.
+	\end{items}
+}
+
+\algo{13}{Dijkstra BFS}{26}
+{
+	\begin{items}
+		\item {\bf Theorem 3.6:} The {\bf time complexity} is $O(D2)$, the
+		{\bf message complexity} is $O(m + nD)$, where $D$ is the diameter of the
+		graph, $n$ the number of nodes, and m the number of edges.
+	\end{items}
+}
+
+
 
 
 
