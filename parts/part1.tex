@@ -113,17 +113,17 @@
 
 \defi{1.14}{Log-Star}
 {
-	$\forall x \leq 2: log*x:=1 \forall x>2: log*x:=1+log*(log(x))$
+	$\forall x \leq 2: \log^*x:=1 \; \forall x>2: \log^*x:=1+\log^*(\log(x))$
 }
 
-\algo{5}{``6-Color''}
+\algo{5}{``6-Color''}{10}
 {
 	\begin{items}
 		\item {\bf Theorem 1.15:} terminates in $log^{*}(n)$ {\bf time}.
 		\item Time Complexity: $O(log^{*}(n))$ 
 	\end{items}
 }
-{10}
+
 
 \algo{6}{Shift Down}{11}
 {

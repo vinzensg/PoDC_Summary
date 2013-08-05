@@ -5,25 +5,159 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 6 - Locality Lower Bounds}
 
+\algo{27}{Synchronous Algorithm: Canonical Form}{60}
+{
+\begin{items}
+    \item Propagate all initial states in r-neighborhood
+    \item Compute output based on all received states
+    \item {\bf Lemma 6.1}: Every deterministic, synchronous r-round algorithm
+    can be transformed into an algorithm of this form if message size and
+    computation is not bounded.
+\end{items}
+}
 
+\defi{6.2}{r-hop view}
+{
+    We call the collection of the initial states of all nodes in the
+    r-neighborhood of a node v, the r-hop view of v.
+}
 
+\defi{6.4}{Neighborhood Graph}
+{
+    For a given family of network graphs $\mc{G}$, the r-neighborhood graph
+    $\mc{N}_r(\mc{G})$ is defined as follows. The node set of $\mc{N}_r(\mc{G})$
+    is the set of all possible labeled r-neighborhoods (i.e., all possible r-hop
+    views).
+    There is an edge between two labeled r-neighborhoods $\mc{V}_r$ and
+    $\mc{V}'_r$ if $\mc{V}_r$ and $\mc{V}'_r$ can be the r-hop views of two
+    adjacent nodes.
+}
 
+\defi{6.4}{Deline Graph}
+{
+    The directed line graph (diline graph) $\mc{DL}(G)$ of a directed graph $G =
+    (V, E)$ is defined as follows. The node set of $\mc{DL}(G)$ is
+    $V[\mc{DL}(G)] = E$. There is a directed edge $\big((w, x); (y, z)\big)$
+    between $(w, x) \in E$ and $(y, z) \in E$ iff $x = y$, i.e., if the first
+    edge ends where the second one starts.
+}
+
+\theo{6.11}{Directed Ring Coloring}{
+    Every deterministic, distributed algorithm to color a directed ring with 3 or
+    less colors needs at least $(\log^* n)/2 - 1$ rounds.
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	ALL-TO-ALL COMMUNICATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 7 - All-to-All Communication}
 
+\defi{7.1}{Minimum Spanning Tree (MST)}{
+    Given a weighted graph $G = (V, E, \omega)$. The MST of $G$ is a spanning
+    tree $T$ minimizing $\omega(T)$, where $\omega(H) = \sum_{e \in H} \omega_e$
+    for any subgraph $H \subseteq G$.
+}
 
+\algo{28}{Simple MST Construction (at node $v$)}{69}{
+    \begin{items}
+        \item sequentially grow fragments by adding blue edges to MST
+        \item {\bf Theorem 7.3:} On a complete graph, Algorithm 28 computes an
+        MST in time $\O (\log n)$.
+        \item essentially equivalent to the GHS algorithm 15 in chapter 3.
+    \end{items}
 
+}
 
+\algo{29}{Fast MST construction (at node $v$)}{70}{
+    \begin{items}
+        \item add multiple blue edges per round to the spanning tree
+        \item {\bf Theorem 7.5:} Algorithm 29 computes an MST in time $\O (\log
+        \log n)$.
+    \end{items}
+}
+
+\algo{30}{AddEdges(E')}{71}{
+    \begin{items}
+        \item Given the set of edges $E'$, determine which edges are added to
+        the MST in Algorithm 29
+        \item Ensures only safe edges are added.
+    \end{items}
+}
+
+Consult Table 7.1 on page 72 for known time complexity upper and lower bounds
+for MST construction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	SOCIAL NETWORKS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 8 - Social Networks}
 
+\defi{8.1}{Cluster Coefficient}{
+    The cluster coefficient of a network is defined by the probability that two
+    friends of a node are likely to be friends as well, averaged over all the
+    nodes.
+}
 
+\defi{8.2}{Augmented Grid}{
+    We take $n = m^2$ nodes $(i, j) \in V = {1, \ldots ,m}^2$ that are
+    identified with the lattice points on an $m \times m$ grid. We define the
+    distance between two nodes $(i, j)$ and $(k, \ell)$ as $d \big( (i, j), (k,
+    \ell) \big) = | k - i | + |\ell - j|$ as the distance between them on the
+    $m \times m$ lattice. The network is modeled using a parameter $\alpha \geq
+    0$.
+    Each node $u$ has a directed edge to every lattice neighbor. These are the
+    local contacts of a node. In addition, each node also has an additional
+    random link (the long-range contact). For all $u$ and $v$, the long-range
+    contact of $u$ points to node $v$ with probability proportional
+    to $d(u, v)^{-\alpha}$ , i.e., with probability 
+    $d(u, v)^{-\alpha} / \sum_{w \in V \setminus \{u\}}{d(u, w)^{-\alpha}}$.
+    Figure 8.2 (page 78) illustrates the model.
+}
+
+\defi{8.3}{With High Probability}{
+    Some probabilistic event is said to
+    occur with high probability (w.h.p.), if it happens with a probability $p
+    \leq 1 - 1/n^c$, where $c$ is a constant. The constant $c$ may be chosen
+    arbitrarily, but it is considered constant with respect to Big-O notation.
+}
+
+\theo{8.4}{Diameter of Augmented Grid}{
+    The diameter of the augmented grid with $\alpha = 0$ is $\O (\log n)$ with
+    high probability.
+}
+
+\algo{31}{Greedy Routing}{79}{
+    \begin{items}
+        \item While not at destination go the a neighbor which is closest to the
+        destination
+        \item {\bf Lemma 8.5:} In the augmented grid, Algorithm 31 finds a
+        routing path of length at most $2(m-1) \in \O (\sqrt{n})$
+    \end{items}
+}
+
+\defi{8.7}{Phase}{
+    Consider routing from source $s$ to target $t$ and assume
+    that we are at some intermediate node $w$. We say that we are in phase $j$
+    at node $w$ if the lattice distance $d(w, t)$ to the target node $t$ is
+    between $2^j < d(w, t) \leq 2^{j+1}$.
+}
+
+\lemma{8.8}{
+    Assume that we are in phase $j$ at node $w$ when routing from $s$ to $t$.
+    The probability for getting (at least) to phase $j - 1$ in one step
+    is at least $\Omega(1 / \log n)$.
+}
+
+\theo{8.9}{Expected Lenght of Greedy Routing}{
+    Consider the greedy routing path from a node $s$ to a node $t$ on
+    an augmented grid with parameter $\alpha = 2$. The expected length of the
+    path is $\O(\log^2 n)$.
+}
+
+\theo{8.10}{Two Player Rumor Game}{
+    In a two player rumor game where both players select one node to initiate
+    their rumor in the graph, the first player does not always win.
+}
 
 
 
@@ -31,3 +165,4 @@
 %	SHARED MEMORY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 9 - Shared Memory}
+
