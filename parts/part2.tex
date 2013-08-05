@@ -166,3 +166,133 @@ for MST construction.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 9 - Shared Memory}
 
+% probably include all RMW operations
+
+\defi{9.1}{Shared Memory}{
+    A shared memory system is a system that consists of asynchronous processes
+    that access a common (shared) memory. A process can atomically access a
+    register in the shared memory through a set of predefined operations. An
+    atomic modification appears to the rest of the system instantaneously. Apart
+    from this shared memory, processes can also have some local (private)
+    memory.
+}
+
+\defi{9.2}{Mutual Exclusion}{
+    We are given a number of processes, each
+executing the following code sections:
+
+
+$<Entry> \rightarrow <Critical Section> \rightarrow <Exit> \rightarrow
+<Remaining Code>$ \\
+A mutual exclusion algorithm consists of code for entry and exit sections, such that the following holds
+\begin{items}
+    \item {\bf Mutual Exclusion:} At all times at most one process is in the
+    critical section.
+    \item {\bf No deadlock:} If some process manages to get to the entry
+    section, later some (possibly different) process will get to the critical section.
+\end{items}
+Sometimes we in addition ask for
+\begin{items}
+    \item {\bf No lockout:} If some process manages to get to the entry section,
+    later the same process will get to the critical section.
+    \item {\bf Unobstructed exit:} No process can get stuck in the exit section.
+\end{items}
+}
+
+\algo{32}{Mutual Exclusion: Test-and-Set}{87}{
+    \begin{items}
+        \item Solution of the mutual exclusion problem using test-and-set. 
+        \item {\bf Theorem 9.3} contains the proof of correctness.
+    \end{items}
+}
+
+\algo{44}{Mutual Exclusion: Peterson's Algorithm}{88}{
+    \begin{items}
+        \item Solution of the mutual exclusion problem without using any
+        Read-Modify-Write Operations but using a spinlock (busy-wait).
+        \item {\bf Theorem 9.4} contains the proof of correctness.
+        \item Basic version only works for $2$ processes but can be extended to
+        $n$ by using a tournament tree.
+    \end{items}
+}
+
+\defi{9.5}{Collect}{
+    There are two operations: A $\textsc{store}(val)$ by process
+$p_i$ sets val to be the latest value of its register $R_i$. A \textsc{collect}
+operation returns a view, a partial function $V$ from the set of processes to a
+set of values, where $V (p_i)$ is the latest value stored by $p_i$, for each
+process $p_i$. For a \textsc{collect} operation $cop$, the following validity
+properties must hold for every process $p_i$:
+\begin{items}
+    \item If $V(p_i) = \perp$, then no \textsc{store} operation by $p_i$
+        precedes $cop$.
+    \item If $V(p_i) = v \neq \perp$, then $v$ is the value of a \textsc{store}
+        operation $sop$ of $p_i$ that does not follow $cop$, and there is no
+        \textsc{store} operation by $p_i$ that follows $sop$ and precedes $cop$
+\end{items}
+}
+
+\algo{34}{Collect: Simple (Non-Adaptive) Solution}{89}{
+    \begin{items}
+        \item directly do \textsc{store} and read every register on
+            \textsc{collect}
+        \item \textsc{store} has step complexity $1$ and the
+            step complexity of a \textsc{collect} operation is $n$.
+        \item Not optimal in \textsc{collect} because it always reads all
+            register even if they were not written.
+    \end{items}
+
+}
+
+\defi{9.6}{Splitter}{
+    A splitter is a synchronization primitive with the
+    following characteristic. A process entering a splitter exits with either
+    \textsc{stop}, \textsc{left}, or \textsc{right}. If $k$ processes enter a
+    splitter, at most one process exits with \textsc{stop} and at most $k - 1$
+    processes exit with \textsc{left} and \textsc{right}, respectively.
+}
+
+\algo{35}{Splitter Code}{90}{
+    \begin{items}
+        \item Implementation of Definition 9.6 with correctness proof in {\bf
+        Lemma 9.7}.
+    \end{items}
+}
+
+\algo{36}{Adaptive Collect: Binary Tree Algorithm}{92}{
+    \begin{items}
+        \item Implementation of \textsc{store} and \textsc{collect} using a
+        splitter and optimizing the \textsc{collect} operation.
+        \item {\bf Lemma 9.8} proofs correctness and shows that the step
+        complexity of the first \textsc{store} for a process $p_i$ is $\O(k)$,
+        the step complexity of every additional \textsc{store} of $p_i$ is
+        $\O(1)$, and the step complexity of \textsc{collect} is $\O(k)$.
+        \item The space complexity of this algorithm is exponential in $n$
+        because we have to allocate memory for the complete binary tree of depth
+        $n-1$.
+        \item It is however possible to make the algorithm more space efficient
+        by using a randomized splitter leading to a binary tree of depth only
+        $\O(\log n)$ with high probability.
+    \end{items}
+}
+
+
+\theo{9.9}{Complexity with Splitter Matrix}{
+    With the in chapter 9.3.4 introduced algorithm using a {\bf Splitter Matrix}
+    instead of a binary tree to optimize space complexity, we get:
+    \\
+    Let $k$ be the number of participating processes. The step complexity of
+    the first store of a process $p_i$ is $\O(k)$, the step complexity of every
+    additional store of $p_i$ is $\O(1)$, and the step complexity of collect is
+    $\O(k^2)$.
+}
+
+
+
+
+
+
+
+
+
+
