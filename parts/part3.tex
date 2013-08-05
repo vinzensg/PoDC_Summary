@@ -4,9 +4,70 @@
 %	SHARED OBJECTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 10 - Shared Objects}
+\algo{37}{Shared Object: Centralized Solution}{95}
+{
+	\begin{items}
+		\item Root manages access to shared object.
+		\item Time complexity (no theorem): Height of the spanning tree
+	\end{items}
+}
 
+\algo{38}{Shared Object: Home-Based Solution}{96}
+{
+	\begin{items}
+		\item {\bf Initialization:} {\bf Home Base} known to every node, all accesses routed through Home Base that manages {\bf Locks}.
+		\item Suffers from the {\bf Triangular Routing Problem}.
+	\end{items}
+}
 
+\algo{39}{Shared Object: Arrow Algorithm}{97}
+{
+	\begin{items}
+		\item {\bf Initialization:} Rooted Spanning Tree
+		\item Arrows always to the holder of the object. {\bf find by u} Operation to the root, wait for object to arrive, get object.
+		\item {\bf Theorem 10.1:} find terminates with message and time complexity $D$.
+		\item Works in a complete asynchronous and concurrent setting.
+		\item {\bf Lemma 10.2:} An edge ${u, v}$ of the spanning tree is in one of four states:\\
+			1.) Pointer from $u$ to $v$ (no message on the edge, no pointer from $v$ to $u$)\\
+			2.) Message on the move from $u$ to $v$ (no pointer along the edge)\\
+			3.) Pointer from $v$ to $u$ (no message on the edge, no pointer from $u$ to $v$)\\
+			4.) Message on the move from $v$ to $u$ (no pointer along the edge)
+		\item {\bf Theorem 10.3:} (Arrow, Concurrent Analysis) Let the system be synchronous. 
+			Initially, the system is in a quiescent state. At time $0$, a set $S$ of nodes initiates 
+			a {\bf find} operation. The message complexity of all {\bf find} operations is $O(log |S|\cdot m^{*})$ 
+			where $m^{*}$ is the message complexity of an optimal (with global knowledge) algorithm on the tree.
+	\end{items}
+}
 
+\algo{40}{Shared Object: Read/Write Caching}{100}
+{
+	\begin{items}
+		\item {\bf Read}-Operation Does not change Arrows, but every node on the way gets copy of object.
+		\item {\bf Write}-Operation invalidates chached copies.
+		\item Works fine for multiple reads plus at most one write concurrently.
+		\item {\bf Theorem 10.4:} Correct, message complexity $3$-competitive (at most a factor $3$ worse than the optimum).
+	\end{items}
+}
+
+\algo{41}{Shared Object: Pointer Forwarding}{101}
+{
+	\begin{items}
+		\item {\bf Initialization:} Object stored at root $r$, precomputed spanning tree $T$
+		\item $u$ requests object, receives it like in the arrow algorithm, but then $u$ is the new root and $r$ a new child of $u$.
+	\end{items}
+}
+
+\algo{42}{Shared Object: Ivy}{101}
+{
+	\begin{items}
+		\item {\bf Initialization:} Object stored at root $r$, precomputed spanning tree $T$
+		\item All nodes on the way to the root $r$ are new children of the requesting node $u$.
+		\item Message/Time Complexity: $O(n)$ in {\bf worst case}. Need {\bf Amortized analysis}.
+		\item {\bf Theorem 10.5:} If the initial tree is a star, a find request of Algorithm 42 needs 
+			at most $log(n)$ steps on average, where $n$ is the number of processors.
+		\item {\bf Lemma 10.6:} For $\alpha>1$, $1+log(\alpha-1)/2\le log(\alpha)$.
+	\end{items}
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
