@@ -173,8 +173,89 @@ See page 116-117 in script for some usefule formulas:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 12 - Synchronization}
 
+\defi{12.1}{Valid Clock Pulse}
+{
+	We call a clock pulse generated at a node $v$ valid if it is generated after $v$ 
+	received all the messages of the synchronous algorithm sent to $v$ by its 
+	neighbors in the previous pulses.
+}
 
+\theo{12.2}{}
+{
+	If all generated clock pulses are valid according to Defnition 12.1, 
+	the above method provides an asynchronous algorithm that behaves exactly 
+	the same way as the given synchronous algorithm.
+}
 
+\defi{12.3}{Safe Node}
+{
+	A node $v$ is safe with respect to a certain clock pulse if all messages 
+	of the synchronous algorithm sent by $v$ in that pulse have already 
+	arrived at their destinations.
+}
+
+\lemma{12.4}
+{
+	If all neighbors of a node $v$ are safe with respect to the current 
+	clock pulse of $v$, the next pulse can be generated for $v$.
+}
+
+\algo{49}{Synchronizer $\alpha$ (at node $v$)}{120}
+{
+	\begin{items}
+		\item time efficient
+		\item No initilaization
+		\item {\bf Theorem 12.5:} $T(\alpha)=O(1)$ and $M(\alpha)=O(m)$.
+	\end{items}
+}
+
+\algo{50}{Synchronizer $\beta$ (at node $v$)}{121}
+{
+	\begin{items}
+		\item message efficient
+		\item {\bf Theorem 12.6:} $T(\beta)=O(diameter(T))$ and $M(\beta)=O(n)$\\
+			$T_{init}(\beta)=O(n)$ and $M_{init}(\beta)=O(m+n\cdot log(n))$
+	\end{items}
+}
+
+\algo{51}{Synchronizer $\gamma$ (at node $v$)}{123}
+{
+	\begin{items}
+		\item time and message efficient
+		\item {\bf Theorem 12.7:} $T(\gamma)=O(k)$ and $M(\gamma)=O(n+m_C)$\\
+			where $k$ is the maximum cluster radius and $m_C$ the number of intercluster edges.
+		\item {\bf Corollary 12.11:} Per synchronous round: $T(\gamma)=O(k)$ and $M(\gamma)=O(n^{1+\frac{1}{k}})$
+		\item {\bf Corollary 12.11:} $T_{init}(\gamma)=O(n)$ and $M_{init}(\gamma)=O(m+n\cdot log(n))$
+	\end{items}
+}
+
+\algo{52}{Cluster Construction}{124}
+{
+	\begin{items}
+		\item Growing Ball with ratio $\ge\rho$.
+		\item {\bf Theorem 12.8:} Algorithm 52 computes a partition of the network graph into 
+		clusters of radius at most $log_{\rho}(n)$. The number of intercluster edges is at 
+		most $(\rho -1)\cdot n$.
+		\item {\bf Corollary 12.9:} Using $\rho=2$, Algorithm 52 computes a clustering with 
+		cluster radius at most $log_2(n)$ and with at most $n$ intercluster edges.
+		\item {\bf Corollary 12.10:} Using $\rho=n^{1/k}$, Algorithm 52 computes a clustering with 
+		cluster radius at most $k$ and with at most $O(n^{1+\frac{1}{k}})$ intercluster edges.
+	\end{items}
+}
+
+\theo{12.12}{Global Clock Skew}
+{
+	The global clock skew (the logical clock difference between any two nodes in the graph) is 
+	$\Omega(D)$, where $D$ is the diameter of the graph.
+}
+
+\algo{53}{Clock Synchronization $\alpha$ (at node $v$)}{127}
+{
+	\begin{items}
+		\item Update local time when logical time received is larger.
+		\item {\bf Lemma 12.13:} Local skew of $\Omega(n)$.
+	\end{items}
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
