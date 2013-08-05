@@ -1,0 +1,71 @@
+\usepackage{fullpage}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\newenvironment{items}
+{
+\vspace{-0.2cm}
+\begin{itemize}
+  \itemsep0em
+}
+{
+\end{itemize}
+}
+
+\newenvironment{enum}
+{
+\vspace{-0.2cm}
+\begin{enumerate}
+  \itemsep0em
+}
+{
+\end{enumerate}
+}
+
+\newcommand{\lecture}[1]
+{
+	\newpage
+	\part*{#1}
+}
+
+\newcommand{\desc}[1]
+{
+	\section*{Setup:}
+			#1
+}
+
+\newcommand{\prob}[3] {
+	\noindent
+	{\bf Problem #1 - #2}\\
+	#3
+	\vspace{0.5cm}
+}
+
+\newcommand{\algo}[4] {
+	\noindent
+	{\bf Algorithm #1 - #2} {\it (see page #4)}
+	#3
+	\vspace{0.5cm}
+}
+
+\newcommand{\defi}[3] {
+	\noindent
+	{\bf Definition #1 - #2}\\
+	#3
+	\vspace{0.5cm}
+}
+
+\newcommand{\theo}[3] {
+	\noindent
+	{\bf Theorem #1 - #2}\\
+	#3
+	\vspace{0.5cm}
+}
+
+\newcommand{\lemma}[2] {
+	\noindent
+	{\bf Lemma #1}\\
+	#2
+	\vspace{0.5cm}
+}
