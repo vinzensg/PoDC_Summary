@@ -319,14 +319,57 @@
 \algo{13}{Dijkstra BFS}{26}
 {
 	\begin{items}
+		\item {\bf Spanning Tree}
+		\item Always add the closest node.
 		\item {\bf Theorem 3.6:} The {\bf time complexity} is $O(D2)$, the
 		{\bf message complexity} is $O(m + nD)$, where $D$ is the diameter of the
-		graph, $n$ the number of nodes, and m the number of edges.
+		graph, $n$ the number of nodes, and $m$ the number of edges.
 	\end{items}
 }
 
+\algo{14}{Bellman-Ford BFS}{26}
+{
+	\begin{items}
+		\item {\bf Spanning Tree}
+		\item Simply keep the distance to the root accurate.
+		\item Border Gateway Protocol
+		\item {\bf Theorem 3.7:} The {\bf time complexity} is $O(D)$, the
+		{\bf message complexity} is $O(nm)$, where $D$ is the diameter of the
+		graph, $n$ the number of nodes, and $m$ the number of edges.
+	\end{items}
+}
 
+\defi{3.8}{MST (Minimum spanning tree)}
+{
+	Given a weighted graph $G = (V, E, \omega)$, the MST of $G$ is a spanning tree
+	T minimizing $\omega (T)$, where $\omega (G') = \sum_{e \in G'}\omega_e$ for
+	any subgraph $G' \subseteq G$.
+}
 
+\defi{3.9}{Blue Edge}
+{
+	Let T be a spanning tree of the weighted graph $G$ and $T' \subseteq T$ a
+	subgraph of $T$ (also called a fragment). Edge $e = (u,v)$ is an outgoing edge
+	of $T'$ if $u \in T'$ and $v \not\in T'$ (or vice versa). The minimum weight
+	outgoing edge $b(T')$ is the so-called blue edge of $T'$. 
+}
+
+\lemma{3.10}
+{
+	For a given weighted graph G (such that no two weights are the same), let $T$
+	denote the MST, and $T'$ be a fragment of $T$. Then the blue edge of $T'$ is
+	also part of $T$, i.e., $T' \cup b(T') \subseteq T$.
+}
+
+\algo{15}{GHS (Gallager-Humblet-Spira)}{28}
+{
+	\begin{items}
+		\item {\bf Theorem 3.11:} The {\bf time complexity} is $O(n log
+		n)$, the {\bf message complexity} is $O(m log n)$.
+		\item Directly solves leader election in general graphs: The leader is simply
+		the last surviving root.
+	\end{items}
+}
 
 
 
@@ -334,6 +377,202 @@
 %	DISTRIBUTED SORTING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 4 - Distributed Sorting}
+
+\defi{4.1}{Sorting}
+{
+	We choose a graph with n nodes v1, \ldots, vn. Initially each node stores a
+	value. After applying a sorting algorithm, node vk stores the kth smallest
+	value.\\
+	Star Topology: Sorting takes $O(1)$.
+}
+
+\defi{4.2}{Node Contention}
+{
+	n each step of a synchronous algorithm, each node can only send and receive
+	$O(1)$ messages containing $O(1)$ values, no matter how many neighbors the node
+	has.\\
+	Star Topology: Sorting takes $O(n)$.
+}
+
+\algo{16}{Odd/Even Sort}{32}
+{
+	\begin{items}
+		\item {\bf Theorem 4.4:} sorts correctly in n steps.
+	\end{items}
+}
+
+\lemma{4.3}
+{
+	{\bf 0-1 Sorting Lemma:} If an oblivious comparison-exchange algorithm sorts
+	all inputs of $0's$ and $1's$, then it sorts arbitrary inputs.
+}
+
+\algo{17}{Shearsort}{33}
+{
+	\begin{items}
+		\item {\bf Theorem 4.5:} sorts n values in $\sqrt(n)(log n + 1)$ time in
+		snake-like order.
+	\end{items}
+}
+
+\defi{4.6}{Sorting Network}
+{
+	A comparator is a device with two inputs $x$, $y$ and two outputs $x'$, $y'$
+	such that $x' = min(x,y)$ and $y' = max(x,y)$. We construct so-called
+	comparison networks that consist of wires that connect  comparators (the
+	output port of a comparator is sent to an input port of another comparator).
+	Some wires are not connected to comparator outputs, and some are not connected
+	to comparator inputs. The first are called input wires of the comparison
+	network, the second output wires. Given n values on the input wires, a sorting
+	network ensures that the values are sorted on the output wires. We will also
+	use the term width to indicate the number of wires in the sorting network. 
+}
+
+\defi{4.7}{Depth}
+{
+	he depth of an input wire is $0$. The depth of a comparator is the maximum
+	depth of its input wires plus one. The depth of an output wire of a comparator
+	is the depth of the comparator. The depth of a comparison network is the
+	maximum depth (of an output wire). 
+}
+
+\defi{4.8}{Bitonic Sequence}
+{
+	A bitonic sequence is a sequence of numbers that first monotonically
+	increases, and then monotonically decreases, or vice versa.
+}
+
+\algo{18}{Half Cleaner}{35}
+{
+	\begin{items}
+		\item {\bf Lemma 4.9:} Feeding a bitonic sequence into a half cleaner, the
+		half cleaner cleans (makes all-0 or all-1) either the upper or the lower half
+		of the n wires. The other half is bitonic.
+	\end{items}
+}
+
+\algo{19}{Bitonic Sequnence Sorter}{35}
+{
+	\begin{items}
+		\item {\bf Lemma 4.10:} A bitonic sequence sorter of width $n$
+		sorts bitonic sequences. It has depth $log n$.
+	\end{items}
+}
+
+\algo{20}{Merging Network}{36}
+{
+	\begin{items}
+		\item {\bf Lemma 4.11:} A merging network of width $n$ merges two
+		sorted input sequences of length $n/2$ each into one sorted sequence of
+		length $n$.
+	\end{items}
+}
+
+\algo{21}{Batcher's ``Bitonic'' Sorting Network}{36}
+{
+	\begin{items}
+		\item {\bf Theorem 4.12:} A sorting network sorts an arbitrary sequence of
+		$n$ values. It has depth $O(log^{2} n)$.
+		\item Can be simulated by a Butterfly network and other hypercubic networks.
+	\end{items}	
+}
+
+\defi{4.13}{Distributed Counting}
+{
+	A distributed counter is a variable that is common to all processors in a
+	system and that supports an atomic test-and-increment operation. The
+	operation delivers the system’s counter value to the requesting processor and
+	increments it.
+}
+
+\defi{4.14}{Balancer}
+{
+	A balancer is an asynchronous flip-flop which forwards messages that arrive on
+	the left side to the wires on the right, the first to the upper, the second to
+	the lower, the third to the upper, and so on.
+}
+
+\algo{22}{Bitonic Counting Network}{38}
+{
+	\begin{items}
+		\item {\bf Theorem 4.20:} In a quiescent state, the $w$ output wires of a
+		bitonic counting network of width $w$ have the step property.
+		\item {\bf Lemma 4.23:} The bitonic counting network is not linearizable.
+	\end{items}
+}
+
+\defi{4.15}{Step Property}
+{
+	A sequence $y_0$,$y_1$,\ldots,$y_{w-1}$ is said to have the step property,if $0
+	\leq y_i-y_j \leq 1$, for any $i<j$.
+}
+
+\fact{4.16}
+{
+	For a balancer, we denote the number of consumed messages on the $i^{th}$ input
+	wire with $x_i$, $i = 0$, $1$. Similarly, we denote the number of sent messages
+	on the ith output wire with $y_i$ , $i = 0$, $1$. A balancer has these
+	properties:
+	\begin{enum}
+		\item A balancer does not generate output-messages; that is, $x_0 + x_1 \geq
+		y_0 + y_1$ in any state.
+		\item Every incoming message is eventually forwarded. In other words, if we
+		are in a quiescent state (no message in transit), then $x_0 + x_1 = y_0 +
+		y_1$.
+		\item The number of messages sent to the upper output wire is at most one
+		higher than the number of messages sent to the lower output wire: in any
+		state $y_0 = \lceil (y_0 + y_1)/2\rceil$ (thus $y_1 = \lfloor (y_0 +
+		y_1)/2\rfloor$).
+	\end{enum}
+}
+
+\fact{4.17}
+{
+	If a sequence $y_0$, $y_1$, \ldots , $y_{w-1}$ has the step property, 
+	\begin{enum}
+		\item then all its subsequences have the step property.
+		\item then its even and odd subsequences satisfy\\
+		$\sum_{i=0}^{w/2-1}y_{2i}= \lceil \frac{1}{2} \sum_{i=0}^{w-1} y_i \rceil$ and 
+		$\sum_{i=0}^{w/2-1}y_{2i+1}= \lfloor \frac{1}{2} \sum_{i=0}^{w-1} y_i \rfloor$
+	\end{enum}
+}
+
+\fact{4.18}
+{
+	If two sequences $x_0$, $x_1$,\ldots,$x_{w-1}$ and $y_0$,
+	$y_1$, \ldots, $y_{w-1}$ have the step property,
+	\begin{enum}
+		\item and $\sum_{i=0}^{w-1} x_i = \sum_{i=0}^{w-1} y_i$, then $x_i = y_i$
+		for $i=0$,\ldots,$w-1$.
+		\item and $\sum_{i=0}^{w-1} x_i = \sum_{i=0}^{w-1} y_i+1$ then there exists
+		a unique $j$ ($j = 0$,$1$,\ldots,$w-1$) such that $x_j = y_j+1$, and $x_i
+		=y_i$ for $i=0$,\ldots,$w-1$, $i \neq j$.
+	\end{enum}
+}
+
+\lemma{4.19}
+{
+	Let M[w] be a Merger of width w. In a quiescent state (no mes- sage in
+	transit), if the inputs $x_0$, $x_1$, \ldots , $x_{w/2-1}$ resp. $x_{w/2}$,
+	$x_{w/2+1}$, \ldots, $x_{w-1}$ have the step property, then the output $y_0$,
+	$y_1$, \ldots, $y_{w-1}$ has the step property. 
+}
+
+\theo{4.21}{Counting vs. Sorting}
+{
+	If a network is a counting network then it is also a sorting network, but not
+	vice versa.
+}
+
+\defi{4.22}{Linearizable}
+{
+	A system is linearizable if the order of the values assigned reflects the
+	real-time order in which they were requested. More formally, if there is a
+	pair of operations $o_1$, $o_2$, where operation $o_1$ terminates be- fore
+	operation $o_2$ starts, and the logical order is ``$o_2$ before $o_1$'', then a
+	distributed system is not linearizable.
+}
+
 
 
 
