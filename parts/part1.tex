@@ -119,15 +119,11 @@
 \algo{5}{``6-Color''}
 {
 	\begin{items}
+		\item {\bf Theorem 1.15:} terminates in $log^{*}(n)$ {\bf time}.
 		\item Time Complexity: $O(log^{*}(n))$ 
 	\end{items}
 }
 {10}
-
-\theo{1.15}{6-Color}
-{
-	Algorithm 5 (``6-Color") terminates in $log^{*}(n)$ time.
-}
 
 \algo{6}{Shift Down}{11}
 {
@@ -582,6 +578,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 5 - Maximal Independent Set}
 
+\desc{
+	\begin{items}
+		\item (First) randomized algorithm.
+	\end{items}
+}
+
 \defi{5.1}{Independent Set}
 {
 	Given an undirected Graph $G = (V, E)$ an independent set is a subset of nodes
@@ -634,7 +636,7 @@
 	\begin{items}
 		\item {\bf Lemma 5.10:} In a single phase, we remove at least half of the
 		edges in expectation.
-		\item {\bf Theorem 5.11:} terminates after {\bt time} at most $3 log_{4/3} m +
+		\item {\bf Theorem 5.11:} terminates after {\bf time} at most $3 log_{4/3} m +
 		1 \in O(log n)$ phases in expectation.\\
 		{\bf Corollary 5.14:} terminates w.h.p. in O(log n) time.
 	\end{items}
