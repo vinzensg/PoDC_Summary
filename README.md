@@ -10,6 +10,7 @@ algorithms with a short description and their page number.
 # Resources
 
 The course webpage can be found here: [http://disco.ethz.ch/lectures/podc/](http://disco.ethz.ch/lectures/podc/)
+
 The whole lecture notes as pdf (155 pages, 3.5 MB) can be downloaded here: [http://disco.ethz.ch/lectures/podc/lecture/podc.pdf](http://disco.ethz.ch/lectures/podc/lecture/podc.pdf)
 
 
