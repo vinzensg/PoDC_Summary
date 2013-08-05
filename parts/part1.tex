@@ -612,7 +612,7 @@
 {
 	\begin{items}
 		\item {\bf Lemma 5.4 - Joining MIS:} A node v joins the MIS in Step 2 of the
-		Fast MIS with probability $p \geq 1$.
+		Fast MIS with probability $p \geq \frac{1}{4d(v)}$.
 		\item {\bf Lemma 5.5 - Good Nodes:} A node v is called good if\\
 		$\sum_{w\in N(v)} \frac{1}{2d(w) \geq \frac{1}{6}}$\\
 		Otherwise we call $v$ a bad node. A good node will be removed in Step 3 with
@@ -621,7 +621,7 @@
 		$u$ and $v$ are bad; else the edge is called good. The following holds: At any
 		time at least half of the edges are good.
 		\item {\bf Theorem 5.8:} terminates in expected {\bf time} $O(log n)$ (, even
-		with high probabilty).
+		with high probability).
 	\end{items}	
 }
 
