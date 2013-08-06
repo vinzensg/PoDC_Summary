@@ -262,3 +262,127 @@ See page 116-117 in script for some usefule formulas:
 %	PEER-TO-PEER COMPUTING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lecture{Chapter 13 - Peer-to-Peer Computing}
+
+\defi{}{Architecture Variants}
+{
+	List of descriptions:
+	\begin{items}
+		\item Client/Server goes P2P
+		\item Unstructured P2P
+		\item Hybrid P2P
+		\item Structured P2P
+	\end{items}
+}
+
+\defi{}{Fat Tree}
+{
+	Every edge connecting a node $v$ to its parent $u$ has a capacity that is equal to all 
+	leaves of the subtree routed at $v$.
+}
+
+\defi{13.1}{Torus, Mesh}
+{
+	Let $m$, $d \in \mathbb{N}$. The $(m, d)$-mesh $M(m, d)$ is a graph with node set 
+	$V=[m]^d$ and edge set\\
+	$$E=\{\{(a_1,\ldots,a_d),(b_1,\ldots,b_d)\}|a_i,b_i \in [m], \sum_{i=1}^d{|a_i-b_i|=1}\}$$
+	The $(m, d)$-torus $T(m, d)$ is a graph that consists of an $(m, d)$-mesh and additionally 
+	wrap-around edges from nodes $(a_1,\ldots, a_{i-1}, m, a_{i+1},\ldots, a_d)$ to nodes 
+	$(a_1,\ldots, a_{i-1}, 1, a_{i+1},\ldots, a_d)$ for all $i \in {1,\ldots, d}$ and all $a_j \in [m]$ with $j \neq i$. 
+	In other words, we take the expression $a_i-b_i$ in the sum modulo $m$ prior to computing 
+	the absolute value. $M(m, 1)$ is also called a line, $T(m, 1)$ a cycle, and 
+	$M(2, d) = T(2, d)$ a $d$-dimensional hypercube. Figure 13.2 presents a linear 
+	array, a torus, and a hypercube.
+}
+
+\defi{13.2}{Butterfly}
+{
+	Let $d \in \mathbb{N}$. The $d$-dimensional butterfly $BF(d)$ is a graph with 
+	node set $V = [d+1]\times[2]^d$ and an edge set $E = E1 \cup E2$ with 
+	$$E1 = \{\{(i, \alpha), (i+1, \alpha)\}|i \in [d], \alpha \in [2]^d\}$$
+	and 
+	\[
+		E2 = \{\{(i, \alpha), (i+1, \beta)\}|i \in [d], \alpha, \beta \in [2]^d, \alpha \textit{ and } \beta \textit{ differ only at the $i$-th position}\}
+	\]
+	A node set $\{(i, \alpha)|\alpha \in [2]^d\}$ is said to form level $i$ of the butterfly. The 
+	$d$-dimensional wrap-around butterfly $W-BF(d)$ is defined by taking the $BF(d)$ and 
+	identifying level $d$ with level $0$.
+}
+
+\defi{13.3}{Cube-Connected-Cycles}
+{
+	Let $d \in \mathbb{N}$. The cube-connectedcycles network $CCC(d)$ is a graph with node set 
+	$V = \{(a, p)|a \in [2]^d, p \in [d]\}$ and edge set
+	\[
+		E=\{\{(a,p),(a,(p+1) mod d)\}|a \in [2]^d, p \in [d]\} \cup \{\{(a,p),(b,p)\}|a,b \in [2]^d,p \in [d], a=b \textit{ except for } a_p\}
+	\]
+}
+
+\defi{13.4}{Shuffle-Exchange}
+{
+	Let $d \in \mathbb{N}$. The $d$-dimensional shuffle-exchange $SE(d)$ 
+	is defined as an undirected graph with node set $V = [2]^d$ and an edge set 
+	$E = E_1 \cup E_2$ with 
+	\[
+		E_1 = \{\{(a_1,\ldots, a_d),(a_1,\ldots,\bar{a}_d)\}|(a_1,\ldots, a_d) \in [2]^d, \bar{a}_d = 1-a_d\}
+	\]
+	and
+	\[
+		E_2 = \{\{(a_1,\ldots, a_d),(a_d, a_1,\ldots,a_{d-1})\}|(a_1,\ldots, a_d) \in [2]^d\}
+	\]
+	Figure 13.5 shows the 3- and 4-dimensional shuffle-exchange graph.
+}
+
+\defi{13.5}{DeBruijn}
+{
+	The $b$-ary DeBruijn graph of dimension $d$ $DB(b, d)$ is an undirected 
+	graph $G=(V,E)$ with node set $V=\{v \in [b]^d\}$ and edge set $E$ that 
+	contains all edges $\{v,w\}$ with the property that $w \in \{(x, v_1,\ldots, v_{d-1}):x \in [b]\}$, 
+	where $v=(v_1,\ldots, v_d)$.
+}
+
+\defi{13.6}{Skip List}
+{
+	The skip list is an ordinary ordered linked list of objects, augmented with 
+	additional forward links. The ordinary linked list is the level $0$ of the 
+	skip list. In addition, every object is promoted to level $1$ with probability 
+	$1/2$. As for level $0$, all level $1$ objects are connected by a linked list. 
+	In general, every object on level $i$ is promoted to the next level with 
+	probability $1/2$. A special start-object points to the smallest/first object on each level.
+	\begin{items}
+		\item Search, insert and delete can be implemented in $O(log(n))$ expected time.
+	\end{items}
+}
+
+\theo{13.7}{}
+{
+	Every graph of maximum degree $d>2$ and size $n$ must have a diameter of at 
+	least $\lceil(log(n))/(log(d-1))\rceil-2$.
+}
+
+\algo{Figure 13.7}{Core/Periphery}{145}
+{
+	
+}
+
+\theo{13.8}{DHT with Churn}
+{
+	We have a fully scalable, efficient P2P system which tolerates $O(log(n))$ 
+	worst-case joins and/or crashes per constant time interval. As in other P2P 
+	systems, peers have $O(log(n))$ neighbors, and the usual operations 
+	(e.g., search, insert) take time $O(log(n))$.
+}
+
+\algo{54}{$\mathcal{M}$: forward($\pi$, $v_c$) at peer $v$.}{147}
+{
+	\begin{items}
+		\item The Storage and Multicast Algorithm with the {\bf shared prefix length}.
+		\item {\bf Theorem 13.9:} In a static overlay, algorithm $\mathcal{M}$ has the following properties:\\
+			(a) It does not induce any duplicate messages (loop-free), and\\
+			(b) all peers are reached (complete).
+	\end{items}
+}
+
+\algo{55}{getNext($v_s$) at peer $v$}{147}
+{
+	
+}
