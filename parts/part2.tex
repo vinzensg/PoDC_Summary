@@ -22,6 +22,11 @@
     r-neighborhood of a node v, the r-hop view of v.
 }
 
+\coro{6.3}{
+    A deterministic $r$-round algorithm $A$ is a function that maps every possible 
+    $r$-hop view to the set of possible outputs.
+}
+
 \defi{6.4}{Neighborhood Graph}
 {
     For a given family of network graphs $\mc{G}$, the r-neighborhood graph
@@ -33,7 +38,19 @@
     adjacent nodes.
 }
 
-\defi{6.4}{Deline Graph}
+\lemma{6.5}{
+    For a given family of network graphs $G$, there is an r-round algorithm that colors 
+    graphs of $G$ with $c$ colors iff the chromatic number of the neighborhood graph is 
+    $\chi(\mc{N}_r(\mc{G})) \leq c$.
+}
+
+\lemma{6.6}{
+    Viewed as an undirected graph, the graph $\mc{B}_{2r+1,n}$ is a subgraph
+    of the r-neighborhood graph of directed n-node rings with node labels 
+    from $[n] = {1, ..., n}$.
+}
+
+\defi{6.7}{Deline Graph}
 {
     The directed line graph (diline graph) $\mc{DL}(G)$ of a directed graph $G =
     (V, E)$ is defined as follows. The node set of $\mc{DL}(G)$ is
@@ -42,9 +59,30 @@
     edge ends where the second one starts.
 }
 
+\lemma{6.8}{
+    If $n > k$, the graph $\mc{B}_{k+1,n}$ can be defined recursively as follows: 
+    $\mc{B}_{k+1,n} = \mc{DL}(\mc{B}_{k,n})$.
+}
+
+\lemma{6.9}{
+    For the chromatic numbers $\chi(\mc{G})$ and $\chi(\mc{DL}(\mc{G}))$ of a directed 
+    graph $G$ and its diline graph, it holds that
+    $\chi\big(\mc{DL}(\mc{G})\big) \geq \log_2 \big(\chi(\mc{G})\big)$.
+}
+
+\lemma{6.10}{
+    For all $n \geq 1$, $\chi(\mc{B}_{1,n}) = n$. Further, for $n \geq k \geq 2$, 
+    $\chi(\mc{B}_{k,n}) \geq \log^{(k-1)} n$.
+}
+
 \theo{6.11}{Directed Ring Coloring}{
     Every deterministic, distributed algorithm to color a directed ring with 3 or
     less colors needs at least $(\log^* n)/2 - 1$ rounds.
+}
+
+\coro{6.12}{
+    Every deterministic, distributed algorithm to compute an MIS of a directed ring 
+    needs at least $\log^* n/2 - \O(1)$ rounds.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -56,6 +94,14 @@
     Given a weighted graph $G = (V, E, \omega)$. The MST of $G$ is a spanning
     tree $T$ minimizing $\omega(T)$, where $\omega(H) = \sum_{e \in H} \omega_e$
     for any subgraph $H \subseteq G$.
+}
+
+\lemma{7.2}{
+  For a given graph $G$ let $T$ be an MST, and let $T' \subseteq T$ be a
+  subgraph (also known as a fragment) of the MST. Edge $e = (u, v)$ is an
+  outgoing edge of $T'$ if $u \in T'$ and $v \notin T'$ (or vice versa). Let the
+  minimum weight outgoing edge of the fragment $T'$ be the so-called blue edge
+  $b(T')$. Then $T' \cup b(T') \subseteq T$.
 }
 
 \algo{28}{Simple MST Construction (at node $v$)}{69}{
@@ -133,6 +179,18 @@ for MST construction.
         \item {\bf Lemma 8.5:} In the augmented grid, Algorithm 31 finds a
         routing path of length at most $2(m-1) \in \O (\sqrt{n})$
     \end{items}
+}
+
+\lemma{8.6}{
+  Node $u$'s random link points to a node $v$ with probability
+  \begin{items}
+    \item $\Theta(1/d(u, v)^\alpha m^{2-\alpha})$ if $\alpha < 2$.
+    \item $\Theta(1/(d(u, v)^2 \log n))$ if $\alpha = 2$,
+    \item $\Theta(1/d(u,v)^\alpha)$ if $\alpha > 2$.
+  \end{items}
+
+  Moreover, if $\alpha > 2$, the probability to see a link of length at least
+  $d$ is in $\Theta(1/d^{\alpha - 2})$.
 }
 
 \defi{8.7}{Phase}{
